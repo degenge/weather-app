@@ -1,5 +1,5 @@
 // DOM ELEMENTS
-let cityElement = document.getElementById('city'),
+const cityElement = document.getElementById('city'),
     searchButton = document.getElementById('search'),
     currentTemperatureValue = document.getElementById('currentTemperatureValue'),
     currentTemperatureFeelsLikeValue = document.getElementById('currentTemperatureFeelsLikeValue'),
@@ -13,14 +13,14 @@ let cityElement = document.getElementById('city'),
     currentStatsHumidityValue = document.getElementById('currentStatsHumidityValue'),
     currentStatsSunriseValue = document.getElementById('currentStatsSunriseValue'),
     currentStatsSunsetValue = document.getElementById('currentStatsSunsetValue'),
-    testContainer = document.getElementById('testContainer'),
-    testElement = document.getElementById('testElement'),
+    nextFiveDaysContainer = document.getElementById('nextFiveDaysContainer'),
     dayButton = document.getElementById('day'),
     nightButton = document.getElementById('night');
 
 // APP CONSTANTS
 const preferredCity = 'dendermonde';
 
+// ADD TO LOCAL STORAGE
 // if (!localStorage.hasOwnProperty('weather_current_city')) {
 //     localStorage.setItem('weather_current_city', preferredCity);
 // }
@@ -32,7 +32,6 @@ getForecast(city, 'day');
 
 searchButton.onclick = () => {
     city = getCity();
-    cityElement.value = '';
     getWeather(city);
     getForecast(city, 'day');
 
@@ -43,14 +42,12 @@ cityElement.onkeyup = (event) => {
         // Cancel the default action, if needed
         event.preventDefault();
         city = getCity();
-        cityElement.value = '';
         getWeather(city);
         getForecast(city, 'day');
     }
 };
 
 dayButton.onclick = () => {
-    //fadeOutIn(testContainer, 250 , 'day');
     dayButton.classList.add('active');
     nightButton.classList.remove('active');
     city = getCity();
@@ -58,7 +55,6 @@ dayButton.onclick = () => {
 };
 
 nightButton.onclick = () => {
-    //fadeOutIn(testContainer, 250 , 'night');
     dayButton.classList.remove('active');
     nightButton.classList.add('active');
     city = getCity();

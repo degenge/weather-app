@@ -1,43 +1,42 @@
-const openWeatherKey = 'bb0e1f790c8db79e3532961bf204d7aa';
+const OPENWEATHER_KEY = 'bb0e1f790c8db79e3532961bf204d7aa';
 
 function getWeather(cityName) {
-    let url = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&APPID=' + openWeatherKey;
+    let url = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&APPID=' + OPENWEATHER_KEY;
+    //console.log(url);
     fetch(url)
         .then(function (resp) {
             // todo: add spinner
             // document.getElementById('spinner').style.display = 'none';
             return resp.json()
-        }) // Convert data to json
+        })
         .then(function (data) {
             drawWeather(data);
             getUvIndex(data.coord.lat, data.coord.lon);
         })
-        .catch(function () {
-            // catch any errors
+        .catch(function (error) {
+            console.error(error);
         });
 }
 
 function getForecast(cityName, temp) {
-    let url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&APPID=' + openWeatherKey;
-    console.log(url);
+    let url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&APPID=' + OPENWEATHER_KEY;
+    //console.log(url);
     fetch(url)
         .then(function (resp) {
             return resp.json()
         })
         .then(function (data) {
-            const DATA_LIST = data.list;
-            console.log(DATA_LIST);
+            const DATA_LIST = data.list,
+                DAY_HOUR = '12:00:00',
+                NIGHT_HOUR = '03:00:00',
+                CURRENT_DATE = new Date();
 
-            const DAY_HOUR = '09:00:00';
-            const NIGHT_HOUR = '03:00:00';
-            // add one day to current date
-            let currentDate = new Date();
-            currentDate.setDate(currentDate.getDate() + 1);
-            let startDateDay = formatDate(currentDate, 'date_us') + ' ' + DAY_HOUR;
-            let startDateNight = formatDate(currentDate, 'date_us') + ' ' + NIGHT_HOUR;
-
-            let tempResultsDay = [];
-            let tempResultsNight = [];
+            // ADD ONE DAY TO CURRENT DATE
+            CURRENT_DATE.setDate(CURRENT_DATE.getDate() + 1);
+            let startDateDay = formatDate(CURRENT_DATE, 'date_us') + ' ' + DAY_HOUR,
+                startDateNight = formatDate(CURRENT_DATE, 'date_us') + ' ' + NIGHT_HOUR,
+                tempResultsDay = [],
+                tempResultsNight = [];
 
             DATA_LIST.forEach((dataElement) => {
                 let dateTemp = new Date(dataElement.dt_txt);
@@ -51,10 +50,10 @@ function getForecast(cityName, temp) {
                     startDateDay = dataElementDateDay;
                 }
 
-                    if (dataElement.dt_txt.indexOf(startDateNight) !== -1) {
-                        tempResultsNight.push(dataElement);
-                        startDateNight = dataElementDateNight;
-                    }
+                if (dataElement.dt_txt.indexOf(startDateNight) !== -1) {
+                    tempResultsNight.push(dataElement);
+                    startDateNight = dataElementDateNight;
+                }
 
             });
 
@@ -70,23 +69,23 @@ function getForecast(cityName, temp) {
             drawForecast(newDataArray);
             drawForecastTemperature(newDataArray);
         })
-        .catch(function () {
-            // catch any errors
+        .catch(function (error) {
+            console.error(error);
         });
 }
 
 function getUvIndex(lat, lon) {
     //http://api.openweathermap.org/data/2.5/uvi?appid=bb0e1f790c8db79e3532961bf204d7aa&lat=51.03&lon=4.08
-    let url = 'https://api.openweathermap.org/data/2.5/uvi?appid=' + openWeatherKey + '&lat=' + lat + '&lon=' + lon;
+    let url = 'https://api.openweathermap.org/data/2.5/uvi?appid=' + OPENWEATHER_KEY + '&lat=' + lat + '&lon=' + lon;
     fetch(url)
         .then(function (resp) {
             return resp.json()
-        }) // Convert data to json
+        })
         .then(function (data) {
             console.log('UV Index: ' + data.value);
         })
-        .catch(function () {
-            // catch any errors
+        .catch(function (error) {
+            console.error(error);
         });
 }
 
@@ -123,7 +122,7 @@ function drawWeather(d) {
 
 function drawForecast(newDataArray) {
     // clear the container first
-    testContainer.innerText = '';
+    nextFiveDaysContainer.innerText = '';
 
     newDataArray.forEach((newDataElement) => {
         // day
@@ -205,7 +204,7 @@ function drawForecast(newDataArray) {
         rowElement.appendChild(element5);
         rowElement.appendChild(element6);
 
-        testContainer.appendChild(rowElement);
+        nextFiveDaysContainer.appendChild(rowElement);
     });
 
 }

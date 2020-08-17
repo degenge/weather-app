@@ -1120,7 +1120,7 @@ hotel:
     - hot-tub
     - hotel
     - infinity
-    - openWeatherKey
+    - OPENWEATHER_KEY
     - luggage-cart
     - shower
     - shuttle-van
@@ -1427,7 +1427,7 @@ maps:
     - industry
     - info
     - info-circle
-    - openWeatherKey
+    - OPENWEATHER_KEY
     - landmark
     - layer-group
     - leaf
@@ -1781,7 +1781,7 @@ objects:
     - image
     - images
     - industry
-    - openWeatherKey
+    - OPENWEATHER_KEY
     - keyboard
     - laptop
     - leaf
@@ -1927,7 +1927,7 @@ payments-shopping:
     - google-wallet
     - handshake
     - heart
-    - openWeatherKey
+    - OPENWEATHER_KEY
     - money-check
     - money-check-alt
     - paypal
@@ -2094,7 +2094,7 @@ security:
     - id-badge
     - id-card
     - id-card-alt
-    - openWeatherKey
+    - OPENWEATHER_KEY
     - lock
     - lock-open
     - mask

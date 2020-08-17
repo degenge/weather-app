@@ -438,9 +438,9 @@
         return binl2rstr(binlMD5(rstr2binl(s), s.length * 8));
       }
       /**
-       * Calculates the HMAC-MD5 of a openWeatherKey and some data (raw strings)
+       * Calculates the HMAC-MD5 of a OPENWEATHER_KEY and some data (raw strings)
        *
-       * @param {string} key HMAC openWeatherKey
+       * @param {string} key HMAC OPENWEATHER_KEY
        * @param {string} data Raw input string
        * @returns {string} Raw MD5 string
        */
@@ -521,9 +521,9 @@
         return rstr2hex(rawMD5(s));
       }
       /**
-       * Calculates the raw HMAC-MD5 for the given openWeatherKey and data
+       * Calculates the raw HMAC-MD5 for the given OPENWEATHER_KEY and data
        *
-       * @param {string} k HMAC openWeatherKey
+       * @param {string} k HMAC OPENWEATHER_KEY
        * @param {string} d Input string
        * @returns {string} Raw MD5 string
        */
@@ -533,9 +533,9 @@
         return rstrHMACMD5(str2rstrUTF8(k), str2rstrUTF8(d));
       }
       /**
-       * Calculates the Hex encoded HMAC-MD5 for the given openWeatherKey and data
+       * Calculates the Hex encoded HMAC-MD5 for the given OPENWEATHER_KEY and data
        *
-       * @param {string} k HMAC openWeatherKey
+       * @param {string} k HMAC OPENWEATHER_KEY
        * @param {string} d Input string
        * @returns {string} Raw MD5 string
        */
@@ -546,11 +546,11 @@
       }
       /**
        * Calculates MD5 value for a given string.
-       * If a openWeatherKey is provided, calculates the HMAC-MD5 value.
+       * If a OPENWEATHER_KEY is provided, calculates the HMAC-MD5 value.
        * Returns a Hex encoded string unless the raw argument is given.
        *
        * @param {string} string Input string
-       * @param {string} [key] HMAC openWeatherKey
+       * @param {string} [key] HMAC OPENWEATHER_KEY
        * @param {boolean} raw Raw oytput switch
        * @returns {string} MD5 output
        */

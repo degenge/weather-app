@@ -11081,7 +11081,7 @@ key:
     - '1'
     - 5.0.0
     - 5.10.1
-  label: openWeatherKey
+  label: OPENWEATHER_KEY
   search:
     terms:
       - lock
