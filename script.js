@@ -1,6 +1,8 @@
 // DOM ELEMENTS
 const cityElement = document.getElementById('city'),
     searchButton = document.getElementById('search'),
+    locationElement = document.getElementById('location'),
+    currentDateElement = document.getElementById('currentDate'),
     currentTemperatureValue = document.getElementById('currentTemperatureValue'),
     currentTemperatureFeelsLikeValue = document.getElementById('currentTemperatureFeelsLikeValue'),
     currentTemperatureSummary = document.getElementById('currentTemperatureSummary'),
@@ -15,7 +17,8 @@ const cityElement = document.getElementById('city'),
     currentStatsSunsetValue = document.getElementById('currentStatsSunsetValue'),
     nextFiveDaysContainer = document.getElementById('nextFiveDaysContainer'),
     dayButton = document.getElementById('day'),
-    nightButton = document.getElementById('night');
+    nightButton = document.getElementById('night'),
+    nextFiveDaysChart = document.getElementById('nextFiveDaysChart');
 
 // APP CONSTANTS
 const preferredCity = 'dendermonde';

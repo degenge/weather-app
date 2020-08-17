@@ -15,6 +15,7 @@ function formatDate(date, dateType, isUnix = false) {
     const MONTHS_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+    // todo: add different date type in enums
     const DATE_PART = ("0" + newDate.getDate()).slice(-2) + '-' + ("0" + (newDate.getMonth() + 1)).slice(-2) + '-' + newDate.getFullYear();
     const DATE_PART_US = newDate.getFullYear() + '-' + ("0" + (newDate.getMonth() + 1)).slice(-2) + '-' + ("0" + newDate.getDate()).slice(-2);
     const TIME_PART = ("0" + newDate.getHours()).slice(-2) + ':' + ("0" + newDate.getMinutes()).slice(-2) + ':' + ("0" + newDate.getSeconds()).slice(-2);

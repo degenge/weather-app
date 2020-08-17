@@ -10,6 +10,12 @@ const TIME_MODES = Object.freeze({
     TWILIGHT: Symbol("twilight")
 });
 
+const TEMPERATURE_SCALES = Object.freeze({
+    CELCIUS:   Symbol("celcius"),
+    FAHRENHEIT:  Symbol("fahrenheit"),
+    KELVIN: Symbol("kelvin")
+});
+
 function fadeOutIn(elem, speed) {
 
     if (!elem.style.opacity) {
