@@ -4,6 +4,8 @@ function getWeather(cityName) {
     let url = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&APPID=' + openWeatherKey;
     fetch(url)
         .then(function (resp) {
+            // todo: add spinner
+            // document.getElementById('spinner').style.display = 'none';
             return resp.json()
         }) // Convert data to json
         .then(function (data) {
@@ -17,48 +19,44 @@ function getWeather(cityName) {
 
 function getForecast(cityName, temp) {
     let url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&APPID=' + openWeatherKey;
+    console.log(url);
     fetch(url)
         .then(function (resp) {
             return resp.json()
-        }) // Convert data to json
+        })
         .then(function (data) {
-            let dataList = data.list;
-            let previousDate = formatDate2(new Date());
+            const DATA_LIST = data.list;
+            console.log(DATA_LIST);
 
-            let previousDateDay = formatDate3(new Date()) + ' 15:00:00';
-            let previousDateNight = formatDate3(new Date()) + ' 03:00:00';
+            const DAY_HOUR = '09:00:00';
+            const NIGHT_HOUR = '03:00:00';
+            // add one day to current date
+            let currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() + 1);
+            let startDateDay = formatDate(currentDate, 'date_us') + ' ' + DAY_HOUR;
+            let startDateNight = formatDate(currentDate, 'date_us') + ' ' + NIGHT_HOUR;
 
-            let newDataArray = [];
             let tempResultsDay = [];
             let tempResultsNight = [];
-            dataList.forEach((tempDataElement) => {
-                let dateTemp = new Date(tempDataElement.dt_txt);
-                let currentDate = formatDate2(dateTemp);
-                let currentDate1 = formatDate2(dateTemp);
-                console.log(currentDate);
-                //console.log(tempResults);
 
-                if (currentDate + ' 15:00:00' !== previousDateDay) {
-                    if (tempDataElement.dt_txt.indexOf(currentDate + ' 15:00:00') !== -1) {
-                        tempResultsDay.push(tempDataElement);
+            DATA_LIST.forEach((dataElement) => {
+                let dateTemp = new Date(dataElement.dt_txt);
+                dateTemp.setDate(dateTemp.getDate() + 1);
+
+                let dataElementDateDay = formatDate(dateTemp, 'date_us') + ' ' + DAY_HOUR;
+                let dataElementDateNight = formatDate(dateTemp, 'date_us') + ' ' + NIGHT_HOUR;
+
+                if (dataElement.dt_txt.indexOf(startDateDay) !== -1) {
+                    tempResultsDay.push(dataElement);
+                    startDateDay = dataElementDateDay;
+                }
+
+                    if (dataElement.dt_txt.indexOf(startDateNight) !== -1) {
+                        tempResultsNight.push(dataElement);
+                        startDateNight = dataElementDateNight;
                     }
-                }
-                if (currentDate + ' 03:00:00' !== previousDateNight) {
-                    if (tempDataElement.dt_txt.indexOf(currentDate + ' 03:00:00') !== -1) {
-                        tempResultsNight.push(tempDataElement);
-                    }
-                }
 
-
-                if (currentDate !== previousDate) {
-                    newDataArray.push(tempDataElement);
-                }
-                previousDate = currentDate;
-                previousDateDay = currentDate;
-                previousDateNight = currentDate;
             });
-            console.log(tempResultsDay);
-            console.log(tempResultsNight);
 
             if (temp === 'day') {
                 return tempResultsDay;
@@ -100,7 +98,8 @@ function drawWeather(d) {
     // current temperature
     let currentTemperature = calculateTemperature(d.main.temp, 'celcius');
     let currentTemperatureFeelslike = calculateTemperature(d.main.feels_like, 'celcius');
-    let currentTemperatureWeatherIcon = "http://openweathermap.org/img/w/" + d.weather[0].icon + ".png";
+    // let currentTemperatureWeatherIcon = "http://openweathermap.org/img/wn/" + d.weather[0].icon + "@2x.png";
+    let currentTemperatureWeatherIcon = "images/" + d.weather[0].icon + ".svg";
     currentTemperatureValue.innerHTML = currentTemperature + '&deg;';
     currentTemperatureFeelsLikeValue.innerHTML = 'Feels like ' + currentTemperatureFeelslike + '&deg;';
     currentTemperatureSummary.innerHTML = d.weather[0].description.toProperCase();
@@ -118,8 +117,8 @@ function drawWeather(d) {
     currentStatsWindSpeedValue.innerText = d.wind.speed + 'm/s';
     currentStatsCloudsValue.innerText = d.clouds.all + '%';
 
-    currentStatsSunriseValue.innerText = formatDate(d.sys.sunrise, 'time');
-    currentStatsSunsetValue.innerText = formatDate(d.sys.sunset, 'time');
+    currentStatsSunriseValue.innerText = formatDate(d.sys.sunrise, 'time', true);
+    currentStatsSunsetValue.innerText = formatDate(d.sys.sunset, 'time', true);
 }
 
 function drawForecast(newDataArray) {
@@ -132,10 +131,10 @@ function drawForecast(newDataArray) {
         element1.setAttribute('class', 'next-5-days__date');
         let value1 = document.createElement('div');
         value1.setAttribute('class', 'next-5-days__value');
-        value1.innerText = formatDate(newDataElement.dt, 'day_short');
+        value1.innerText = formatDate(newDataElement.dt, 'day_short', true);
         let label1 = document.createElement('div');
         label1.setAttribute('class', 'next-5-days__label');
-        label1.innerText = formatDate(newDataElement.dt, 'day_month');
+        label1.innerHTML = formatDate(newDataElement.dt, 'day_month', true) + '<br/>' + formatDate(newDataElement.dt_txt, 'time');
         element1.appendChild(value1);
         element1.appendChild(label1);
 
@@ -144,7 +143,8 @@ function drawForecast(newDataArray) {
         let value2 = document.createElement('div');
         value2.setAttribute('class', 'next-5-days__value');
         let imageIcon = document.createElement('img');
-        imageIcon.setAttribute('src', "http://openweathermap.org/img/w/" + newDataElement.weather[0].icon + ".png");
+        //imageIcon.setAttribute('src', "http://openweathermap.org/img/wn/" + newDataElement.weather[0].icon + "@2x.png");
+        imageIcon.setAttribute('src', "images/" + newDataElement.weather[0].icon + ".svg");
         value2.appendChild(imageIcon);
         let label2 = document.createElement('div');
         label2.setAttribute('class', 'next-5-days__label');
@@ -216,7 +216,7 @@ function drawForecastTemperature(newDataArray) {
         'data': []
     };
     newDataArray.forEach((newDataElement) => {
-        let dataLegend = [formatDate(newDataElement.dt, 'day_short'), formatDate(newDataElement.dt, 'day_month')];
+        let dataLegend = [formatDate(newDataElement.dt, 'day_short', true), formatDate(newDataElement.dt, 'day_month', true)];
         chartData.legend.push(dataLegend);
         chartData.data.push(calculateTemperature(newDataElement.main.temp, 'celcius'));
     });
@@ -230,7 +230,7 @@ function drawForecastTemperature(newDataArray) {
                 label: ' Temperature (°C)',
                 data: chartData.data,
                 backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                borderColor:  '#f4a91a',
+                borderColor: '#f4a91a',
                 clip: 50,
                 fill: false,
                 lineTension: 0.1
@@ -294,4 +294,10 @@ function calculateTemperature(value, scale) {
             break;
     }
     return temperature;
+}
+
+function calculateDegreesToCompass(degrees) {
+    let val = Math.floor((degrees / 22.5) + 0.5);
+    const WIND_DIRECTIONS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return WIND_DIRECTIONS[(val % 16)];
 }

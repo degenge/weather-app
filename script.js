@@ -51,25 +51,30 @@ cityElement.onkeyup = (event) => {
 
 dayButton.onclick = () => {
     //fadeOutIn(testContainer, 250 , 'day');
+    dayButton.classList.add('active');
+    nightButton.classList.remove('active');
     city = getCity();
-    cityElement.value = '';
     getForecast(city, 'day');
 };
 
 nightButton.onclick = () => {
     //fadeOutIn(testContainer, 250 , 'night');
+    dayButton.classList.remove('active');
+    nightButton.classList.add('active');
     city = getCity();
-    cityElement.value = '';
     getForecast(city, 'night');
 };
 
-function getCity(){
+function getCity() {
+    let city;
     if (cityElement.value === '') {
-        return preferredCity;
+        city = preferredCity;
     }
     else {
-        return cityElement.value;
+        city = cityElement.value;
     }
+    cityElement.value = '';
+    return city;
 }
 
 

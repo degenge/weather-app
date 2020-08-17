@@ -1,28 +1,42 @@
-function formatDate(date, dateType) {
-    const milliseconds = date * 1000;
-    const newDate = new Date(milliseconds);
-    const daysFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    const daysShort = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    const monthsFull = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    const monthsShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function formatDate(date, dateType, isUnix = false) {
+
+    let newDate;
+
+    if (isUnix) {
+        const milliseconds = date * 1000;
+        newDate = new Date(milliseconds);
+    }
+    else {
+        newDate = new Date(date);
+    }
+
+    const daysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const monthsFull = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     //currentDate.toLocaleString() + currentDate.toLocaleString("nl-NL", {weekday: "long"})
     //let dateFormattedLong = weekday[newDate.getDay()] + ' ' + newDate.getDate() + ' ' + month[newDate.getMonth()] + ' ' + newDate.getFullYear() + ',' + newDate.getHours() + 'h' + newDate.getMinutes();
 
     let datePart = ("0" + newDate.getDate()).slice(-2) + '-' + ("0" + (newDate.getMonth() + 1)).slice(-2) + '-' + newDate.getFullYear();
-    let timePart = ("0" + newDate.getHours()).slice(-2) + ':' + ("0" + newDate.getMinutes()).slice(-2);
+    let datePartUS = newDate.getFullYear() + '-' + ("0" + (newDate.getMonth() + 1)).slice(-2) + '-' + ("0" + newDate.getDate()).slice(-2);
+    let timePart = ("0" + newDate.getHours()).slice(-2) + ':' + ("0" + newDate.getMinutes()).slice(-2) + ':' + ("0" + newDate.getSeconds()).slice(-2);
     let dayShort = daysShort[newDate.getDay()];
     let daymonthPart = ("0" + newDate.getDate()).slice(-2) + '/' + ("0" + (newDate.getMonth() + 1)).slice(-2);
 
     switch (dateType) {
         case 'date':
             return datePart;
+        case 'date_us':
+            return datePartUS;
         case 'time':
             return timePart;
         case 'day_short':
             return dayShort;
         case 'day_month':
             return daymonthPart;
+        case 'date_full_us':
+            return datePartUS + ' ' + timePart;
         default:
             return datePart + ' ' + timePart;
     }
