@@ -28,12 +28,12 @@ const preferredCity = 'dendermonde';
 let city = getCity();
 
 getWeather(city);
-getForecast(city, 'day');
+getForecast(city, TIME_MODES.DAY);
 
 searchButton.onclick = () => {
     city = getCity();
     getWeather(city);
-    getForecast(city, 'day');
+    getForecast(city, TIME_MODES.DAY);
 
 };
 
@@ -43,7 +43,7 @@ cityElement.onkeyup = (event) => {
         event.preventDefault();
         city = getCity();
         getWeather(city);
-        getForecast(city, 'day');
+        getForecast(city, TIME_MODES.DAY);
     }
 };
 
@@ -51,14 +51,14 @@ dayButton.onclick = () => {
     dayButton.classList.add('active');
     nightButton.classList.remove('active');
     city = getCity();
-    getForecast(city, 'day');
+    getForecast(city, TIME_MODES.DAY);
 };
 
 nightButton.onclick = () => {
     dayButton.classList.remove('active');
     nightButton.classList.add('active');
     city = getCity();
-    getForecast(city, 'night');
+    getForecast(city, TIME_MODES.NIGHT);
 };
 
 function getCity() {

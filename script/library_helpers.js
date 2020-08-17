@@ -4,6 +4,12 @@ String.prototype.toProperCase = function () {
     });
 };
 
+const TIME_MODES = Object.freeze({
+    DAY:   Symbol("day"),
+    NIGHT:  Symbol("night"),
+    TWILIGHT: Symbol("twilight")
+});
+
 function fadeOutIn(elem, speed) {
 
     if (!elem.style.opacity) {

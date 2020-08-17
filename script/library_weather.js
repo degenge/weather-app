@@ -18,7 +18,7 @@ function getWeather(cityName) {
         });
 }
 
-function getForecast(cityName, temp) {
+function getForecast(cityName, timeMode) {
     let url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&APPID=' + OPENWEATHER_KEY;
     //console.log(url);
     fetch(url)
@@ -39,11 +39,11 @@ function getForecast(cityName, temp) {
                 tempResultsNight = [];
 
             DATA_LIST.forEach((dataElement) => {
-                let dateTemp = new Date(dataElement.dt_txt);
-                dateTemp.setDate(dateTemp.getDate() + 1);
+                let dataElementDate = new Date(dataElement.dt_txt);
+                dataElementDate.setDate(dataElementDate.getDate() + 1);
 
-                let dataElementDateDay = formatDate(dateTemp, 'date_us') + ' ' + DAY_HOUR;
-                let dataElementDateNight = formatDate(dateTemp, 'date_us') + ' ' + NIGHT_HOUR;
+                let dataElementDateDay = formatDate(dataElementDate, 'date_us') + ' ' + DAY_HOUR,
+                    dataElementDateNight = formatDate(dataElementDate, 'date_us') + ' ' + NIGHT_HOUR;
 
                 if (dataElement.dt_txt.indexOf(startDateDay) !== -1) {
                     tempResultsDay.push(dataElement);
@@ -57,17 +57,19 @@ function getForecast(cityName, temp) {
 
             });
 
-            if (temp === 'day') {
-                return tempResultsDay;
-            }
-            else {
-                return tempResultsNight;
+            switch (timeMode) {
+                case TIME_MODES.DAY:
+                    return tempResultsDay;
+                case TIME_MODES.NIGHT:
+                    return tempResultsNight;
+                default:
+                    return;
             }
 
         })
-        .then(function (newDataArray) {
-            drawForecast(newDataArray);
-            drawForecastTemperature(newDataArray);
+        .then(function (newData) {
+            drawForecast(newData);
+            drawForecastTemperature(newData);
         })
         .catch(function (error) {
             console.error(error);
